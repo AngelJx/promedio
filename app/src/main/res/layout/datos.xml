@@ -22,49 +22,15 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/txtPromedio"
-                android:layout_width="198dp"
-                android:layout_height="42dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginEnd="76dp"
-                android:text="@string/txtPromedio"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toEndOf="@+id/imgFoto"
-                app:layout_constraintTop_toBottomOf="@+id/txtNombre" />
-
-            <TextView
-                android:id="@+id/txtTipoBeca"
-                android:layout_width="198dp"
-                android:layout_height="42dp"
-                android:layout_marginEnd="76dp"
-                android:text="@string/txtTipoBeca"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toEndOf="@+id/imgFoto"
-                app:layout_constraintTop_toBottomOf="@+id/txtPromedio" />
-
-            <TextView
-                android:id="@+id/txtMonto"
-                android:layout_width="198dp"
-                android:layout_height="42dp"
-                android:layout_marginEnd="76dp"
-                android:text="@string/txtMonto"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toEndOf="@+id/imgFoto"
-                app:layout_constraintTop_toBottomOf="@+id/txtTipoBeca" />
-
-            <TextView
                 android:id="@+id/txtNombre"
-                android:layout_width="198dp"
-                android:layout_height="42dp"
+                android:layout_width="196dp"
+                android:layout_height="35dp"
                 android:layout_marginEnd="76dp"
                 android:text="@string/txtNombre"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toEndOf="@+id/imgFoto"
-                tools:layout_editor_absoluteY="46dp" />
+                tools:layout_editor_absoluteY="44dp" />
 
             <ImageView
                 android:id="@+id/imgFoto"
@@ -78,6 +44,29 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.426"
                 tools:srcCompat="@tools:sample/avatars" />
+
+            <Button
+                android:id="@+id/btnCalcularPromedio"
+                android:layout_width="41dp"
+                android:layout_height="34dp"
+                android:layout_marginEnd="16dp"
+                android:text="Button"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.518" />
+
+            <EditText
+                android:id="@+id/edtPromedio"
+                android:layout_width="191dp"
+                android:layout_height="43dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="20dp"
+                android:ems="10"
+                android:hint="Promedio"
+                android:inputType="text"
+                app:layout_constraintStart_toEndOf="@+id/imgFoto"
+                app:layout_constraintTop_toBottomOf="@+id/txtNombre" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>

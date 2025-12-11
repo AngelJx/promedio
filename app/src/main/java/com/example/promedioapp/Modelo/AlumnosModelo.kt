@@ -1,44 +1,73 @@
 package com.example.promedioapp.Modelo
 import com.example.promedioapp.R
+import okhttp3.OkHttpClient
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 class AlumnosModelo {
-    lateinit var alumnos: List<AlumnosDatos>
-    fun calcularTipoBeca(promedio: Float): String
-    {
-        return  when {
-            promedio >= 9 -> "Beca de Excelencia"
-            promedio >=8 -> "Beca de Servicio"
-            else -> "Beca de Alimentación"
-        }
-    }
-    fun calcualarMontoBeca (promedio: Float): String{
+    private lateinit var apiService: ifaceApiService
 
-        return  when {
-            promedio >= 9 -> "$ 3500.00 Pesos"
-            promedio >= 8 -> "$ 2800.00 Pesos"
-            else -> "$ 1500.00 Pesos"
-        }
+    fun inicializarApiService() {
+        //Configuracion de Retrofit
+        val retrofit = Retrofit.Builder()
+            .baseUrl("https://grupoctic.com/api/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(OkHttpClient())
+            .build()
+
+        apiService = retrofit.create(ifaceApiService::class.java)
     }
 
-    fun cargarDatos (): List<AlumnosDatos>
+    fun modificarBeca(id : Int, promedio : Float, callback: (Boolean, String) -> Unit)
     {
-       alumnos= mutableListOf(
-           AlumnosDatos("Luis",8.9f, "", "", R.drawable.perfil),
-           AlumnosDatos("Juanita",9.0f, "", "", R.drawable.perfildos),
-           AlumnosDatos("David",10f, "", "", R.drawable.perfiltres),
-           AlumnosDatos("Angel",7.0f, "", "", R.drawable.foto4),
-           AlumnosDatos("Maria",4.0f, "", "", R.drawable.foto5),
-           AlumnosDatos("Juan jose",10f, "", "", R.drawable.foto6),
-           AlumnosDatos("Danna",9.0f, "", "", R.drawable.foto7),
-           AlumnosDatos("Jennifer",6.0f, "", "", R.drawable.foto8),
-           AlumnosDatos("Jesus",10f, "", "", R.drawable.foto9),
-           AlumnosDatos("Valeria",5.0f, "", "", R.drawable.foto10),
-       )
+        inicializarApiService()
+        apiService.modificarBeca(id, promedio).enqueue(object: Callback<List<clsRespuesta>>
+        {
+            override fun onResponse(call: Call<List<clsRespuesta>>, response: Response<List<clsRespuesta>>)
+            {
+                if (response.isSuccessful)
+                {
+                    response.body()?.let { respuesta ->
+                        callback(respuesta[0].estado, respuesta[0].salida)
+                    }
+                }
+                else
+                {
+                    callback(false, "Error: ${response.message()}")
+                }
+            }
 
-        alumnos.forEach {
-            it.tipoBeca = calcularTipoBeca(it.promedio);
-            it.montoBeca= calcualarMontoBeca(it.promedio)
-        }
-        return alumnos
+            override fun onFailure(call: Call<List<clsRespuesta>?>, t: Throwable) {
+                callback(false, "Error: ${t.message}")
+            }
+        })
+    }
+
+    fun recuperarAlumnos(callback: (Boolean, String, List<clsRespuestaAlumnos>) -> Unit)
+    {
+        inicializarApiService()
+        apiService.obtenerAlumnos().enqueue(object: Callback<List<clsRespuestaAlumnos>>
+        {
+            override fun onResponse(call: Call<List<clsRespuestaAlumnos>>, response: Response<List<clsRespuestaAlumnos>>)
+            {
+                if (response.isSuccessful)
+                {
+                    response.body()?.let { alumnos ->
+                        callback(true, "Alumnos recuperados de manera exitosa", alumnos)
+                    }
+                }
+                else
+                {
+                    callback(false, "Error: ${response.message()}", emptyList())
+                }
+            }
+
+            override fun onFailure(call: Call<List<clsRespuestaAlumnos>?>, t: Throwable) {
+                callback(false, "Error: ${t.message}", emptyList())
+            }
+        })
     }
 }

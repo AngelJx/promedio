@@ -9,7 +9,6 @@ class  AlumnosPresenter (val vista: AlumnosContract) {
 
     fun cargarAlumnos()
     {
-        val lista= modelo.cargarDatos()
-        vista.mostrarAlumnos(lista)
+
     }
 }

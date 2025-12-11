@@ -1,44 +1,43 @@
 package com.example.promedioapp.Vista
 
 import android.os.Bundle
-import android.view.View
-import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.promedioapp.Modelo.AlumnosDatos
-import com.example.promedioapp.Presentador.AlumnosPresenter
+import com.example.promedioapp.Modelo.AlumnosModelo
 import com.example.promedioapp.R
 
-class MainActivity : AppCompatActivity(), AlumnosContract {
-
-    lateinit var presentador: AlumnosPresenter
-    lateinit var txtTitulo: TextView
-    lateinit var rcvLista: RecyclerView
+class Alumnos : AppCompatActivity() {
+    lateinit var rcvListaAlumnos : RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_alumnos)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
-        txtTitulo= findViewById(R.id.txtTitulo)
-        rcvLista= findViewById(R.id.rcvLista)
-        rcvLista.layoutManager= LinearLayoutManager(this)
+        rcvListaAlumnos = findViewById(R.id.rcvListaAlumnos)
+        rcvListaAlumnos.layoutManager= LinearLayoutManager(this)
 
-        presentador= AlumnosPresenter(this)
-        presentador.cargarAlumnos()
+        //el presentador va a ejecutar la función mostrarAlumnosCompletos
     }
 
-    override fun mostrarAlumnos(alumnos: List<AlumnosDatos>) {
-        rcvLista.adapter = AlumnosAdapter(this@MainActivity, alumnos)
+    val model = AlumnosModelo()
+
+    fun mostrarAlumnosCompletos()
+    {
+        model.recuperarAlumnos { estado, mensaje, alumnos ->
+            if (estado)
+            {
+                rcvListaAlumnos.adapter = AlumnosCompletosAdapter(this@Alumnos, alumnos)
+            }
+        }
     }
 }
