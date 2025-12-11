@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">promedioApp</string>
+    <string name="txtTitulo">LISTA DE ALUMNOS</string>
+    <string name="rcvLista">lista alumnos</string>
+
+    <string name="txtMatricula">Matricula</string>
+    <string name="txtNombre">Nombre</string>
+    <string name="txtPromedio">Promedio</string>
+    <string name="txtTipoBeca">Tipo de Beca</string>
+    <string name="txtMonto">Monto de beca</string>
+    <string name="imgFoto">Fotos</string>
+</resources>
