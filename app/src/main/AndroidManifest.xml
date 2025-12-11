@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PromedioApp">
         <activity
+            android:name=".Vista.Alumnos"
+            android:exported="false" />
+        <activity
             android:name=".Vista.MainActivity"
             android:exported="true">
             <intent-filter>
